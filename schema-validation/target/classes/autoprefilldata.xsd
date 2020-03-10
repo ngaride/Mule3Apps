@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://services.mig.com/schema/AutoPrefillData/v1"
+	xmlns:err="http://services.mig.com/ErrorTypes" targetNamespace="http://services.mig.com/schema/AutoPrefillData/v1"
+	elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:element name="GetPersonalAutoDataRequest" type="ns0:GetPersonalAutoDataRequestType" />
+	<xs:element name="GetPersonalAutoDataResponse" type="ns0:GetPersonalAutoDataResponseType" />
+	<xs:complexType name="GetPersonalAutoDataRequestType">
+		<xs:sequence>
+			<xs:element name="PolicyHolder" type="ns0:PolicyHolderDetailsType" />
+			<xs:element name="DriverLicenseType" type="ns0:DriverLicenseEnumType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetPersonalAutoDataResponseType">
+		<xs:sequence>
+			<xs:element name="Messages" type="ns0:MessagesType" />
+			<xs:element name="Reports" type="ns0:ReportsType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddressesType">
+		<xs:sequence>
+			<xs:element name="Address" type="ns0:AddressType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddressType">
+		<xs:sequence>
+			<xs:element name="Type" type="ns0:PrefillAddressType" />
+			<xs:element name="AddressLine1" type="xs:string" />
+			<xs:element name="AddressLine2" type="xs:string" minOccurs="0" />
+			<xs:element name="City" type="xs:string" />
+			<xs:element name="State" type="ns0:StateType" />
+			<xs:element name="ZipCode" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[0-9]{5}-[0-9]{4}" />
+						<xs:pattern value="[0-9]{9}" />
+						<xs:pattern value="[0-9]{5}" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="PrefillAddressType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Home" />
+			<xs:enumeration value="Billing" />
+			<xs:enumeration value="Other" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StateType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z]{2}" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="MessagesType">
+		<xs:sequence>
+			<xs:element name="Message" type="ns0:MessageType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MessageType">
+		<xs:sequence>
+			<xs:element name="Type" type="ns0:ResultMessageType" minOccurs="0" />
+			<xs:element name="Code" type="xs:string" minOccurs="0" />
+			<xs:element name="Message" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CCMessageType">
+		<xs:sequence>
+			<xs:element name="Type" type="ns0:CCMessageEnumType" minOccurs="0" />
+			<xs:element name="Code" type="xs:string" minOccurs="0" />
+			<xs:element name="Message" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CCMessageEnumType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Consumer comments" />
+			<xs:enumeration value="Consumer statements" />
+			<xs:enumeration value="Record statements" />
+			<xs:enumeration value="Fraud alert" />
+			<xs:enumeration value="Identity theft" />
+			<xs:enumeration value="Legal hold" />
+			<xs:enumeration value="Security freeze" />
+			<xs:enumeration value="Unknown" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ResultMessageType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Error" />
+			<xs:enumeration value="General" />
+			<xs:enumeration value="Info" />
+			<xs:enumeration value="Warning" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="PersonType">
+		<xs:sequence>
+			<xs:element name="Name" type="ns0:PersonNameType" minOccurs="0" />
+			<xs:element name="DateOfBirth" type="xs:date" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PersonNameType">
+		<xs:sequence>
+			<xs:element name="FirstName" type="xs:string" />
+			<xs:element name="MiddleName" type="xs:string" minOccurs="0" />
+			<xs:element name="LastName" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PolicyHolderDetailsType">
+		<xs:complexContent>
+			<xs:extension base="ns0:PersonType">
+				<xs:sequence>
+					<xs:element name="Addresses" type="ns0:AddressesType" minOccurs="0" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="DriverLicenseEnumType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Personal" />
+			<xs:enumeration value="Commercial" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="DriverDiscoveryReportType">
+		<xs:sequence>
+			<xs:element name="Status" type="ns0:DDStatusEnumType" minOccurs="0" />
+			<xs:element name="Type" type="xs:string" minOccurs="0" />
+			<xs:element name="NoOfDriversDiscovered" type="xs:string" minOccurs="0" />
+			<xs:element name="Drivers" type="ns0:DriversType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="DDStatusEnumType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="No driver discovery reported" />
+			<xs:enumeration value="Driver discovery reported" />
+			<xs:enumeration value="Not processed" />
+			<xs:enumeration value="Invalid LexisNexis account number" />
+			<xs:enumeration value="Insufficient search data" />
+			<xs:enumeration value="Driver discovery search unavailable" />
+			<xs:enumeration value="Driver discovery search not requested" />
+			<xs:enumeration value="Driver discovery state unavailable" />
+			<xs:enumeration value="Requested state not on driver discovery database" />
+			<xs:enumeration value="Search not processed" />
+			<xs:enumeration value="State limitation" />
+			<xs:enumeration value="Unknown" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CarrierReportType">
+		<xs:sequence>
+			<xs:element name="Status" type="ns0:CCStatusEnumType" minOccurs="0" />
+			<xs:element name="Messages" type="ns0:CCMessagesType" minOccurs="0" />
+			<xs:element name="PriorCarriers" type="ns0:PriorCarriersType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PriorCarriersType">
+		<xs:sequence>
+			<xs:element name="PriorCarrier" type="ns0:PriorCarrierType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PriorCarrierType">
+		<xs:sequence>
+			<xs:element name="Carrier" type="xs:string" minOccurs="0" />
+			<xs:element name="PolicyNumber" type="xs:string" minOccurs="0" />
+			<xs:element name="AMB" type="xs:string" minOccurs="0" />
+			<xs:element name="InceptionDate" type="xs:date" minOccurs="0" />
+			<xs:element name="PolicyStatus" type="ns0:CCPolicyStatusEnumType" minOccurs="0" />
+			<xs:element name="PolicyEffectiveDate" type="xs:date" minOccurs="0" />
+			<xs:element name="PolicyExpiryDate" type="xs:date" minOccurs="0" />
+			<xs:element name="BIPDLimit" type="xs:integer" minOccurs="0" />
+			<xs:element name="Coverages" type="ns0:CoveragesType" minOccurs="0" />
+			<xs:element name="LastCancDate" type="xs:date" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CoveragesType">
+		<xs:sequence>
+			<xs:element name="Coverage" type="ns0:CoveragesEnumType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CoveragesEnumType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="BI" />
+			<xs:enumeration value="CO" />
+			<xs:enumeration value="CP" />
+			<xs:enumeration value="CS" />
+			<xs:enumeration value="ME" />
+			<xs:enumeration value="MP" />
+			<xs:enumeration value="PD" />
+			<xs:enumeration value="PI" />
+			<xs:enumeration value="RR" />
+			<xs:enumeration value="TL" />
+			<xs:enumeration value="UM" />
+			<xs:enumeration value="UN" />
+			<xs:enumeration value="NB" />
+			<xs:enumeration value="NP" />
+			<xs:enumeration value="UB" />
+			<xs:enumeration value="UP" />
+			<xs:enumeration value="OT" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CCMessagesType">
+		<xs:sequence>
+			<xs:element name="Message" type="ns0:CCMessageType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CCStatusEnumType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Record(s) found" />
+			<xs:enumeration value="Record(s) found - secondary report" />
+			<xs:enumeration value="No record found" />
+			<xs:enumeration value="No record found - secondary report" />
+			<xs:enumeration value="Invalid account" />
+			<xs:enumeration value="Insufficient data" />
+			<xs:enumeration value="Current carrier unavailable" />
+			<xs:enumeration value="Access not permitted" />
+			<xs:enumeration value="State not available for this account" />
+			<xs:enumeration value="Not processed" />
+			<xs:enumeration value="Inquiry subject(s) are unavailable due to an Alert(s)" />
+			<xs:enumeration value="Unknown" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CCPolicyStatusEnumType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="IN-EFFECT" />
+			<xs:enumeration value="EXPIRED" />
+			<xs:enumeration value="CANCELLED" />
+			<xs:enumeration value="DISPUTED" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CCPolicyHolderType">
+		<xs:sequence>
+			<xs:element name="FirstName" type="xs:string" minOccurs="1" />
+			<xs:element name="MiddleName" type="xs:string" minOccurs="0" />
+			<xs:element name="LastName" type="xs:string" minOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VINDataReportType">
+		<xs:sequence>
+			<xs:element name="Messages" type="ns0:MessagesType" minOccurs="0" />
+			<xs:element name="Status" type="ns0:VinStatusEnumType" minOccurs="0" />
+			<xs:element name="NoOfVINDeveloped" type="xs:integer" minOccurs="0" />
+			<xs:element name="Vehicles" type="ns0:VehiclesType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="VinStatusEnumType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Completed" />
+			<xs:enumeration value="No hit" />
+			<xs:enumeration value="Order rejected" />
+			<xs:enumeration value="State unavailable" />
+			<xs:enumeration value="Unreturned" />
+			<xs:enumeration value="Unknown" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ReportsType">
+		<xs:sequence>
+			<xs:element name="DriverDiscoveryReport" type="ns0:DriverDiscoveryReportType"
+				minOccurs="0" />
+			<xs:element name="CarrierReport" type="ns0:CarrierReportType" minOccurs="0" />
+			<xs:element name="VINDataReport" type="ns0:VINDataReportType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DriverType">
+		<xs:sequence>
+			<xs:element name="FirstName" type="xs:string" minOccurs="0" />
+			<xs:element name="MiddleName" type="xs:string" minOccurs="0" />
+			<xs:element name="LastName" type="xs:string" minOccurs="0" />
+			<xs:element name="Relationship" type="xs:string" minOccurs="0" />
+			<xs:element name="Classification" type="xs:string" minOccurs="0" />
+			<xs:element name="BirthDate" type="xs:date" minOccurs="0" />
+			<xs:element name="Gender" type="xs:string" minOccurs="0" />
+			<xs:element name="LicenseState" type="xs:string" minOccurs="0" />
+			<xs:element name="LicenseNumber" type="xs:string" minOccurs="0" />
+			<xs:element name="UnitNumber" type="xs:integer" minOccurs="0" />
+			<xs:element name="GroupSequence" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DriversType">
+		<xs:sequence>
+			<xs:element name="Driver" maxOccurs="unbounded" type="ns0:DriverType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VehicleType">
+		<xs:sequence>
+			<xs:element name="Type" type="xs:string" minOccurs="0" />
+			<xs:element name="Year" type="xs:string" minOccurs="0" />
+			<xs:element name="Make" type="xs:string" minOccurs="0" />
+			<xs:element name="Model" type="xs:string" minOccurs="0" />
+			<xs:element name="Vin" type="xs:string" minOccurs="0" />
+			<xs:element name="Price" type="xs:string" minOccurs="0" />
+			<xs:element name="AntiLockBrakes" type="xs:string" minOccurs="0" />
+			<xs:element name="AirBags" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VehiclesType">
+		<xs:sequence>
+			<xs:element name="Vehicle" maxOccurs="unbounded" type="ns0:VehicleType" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

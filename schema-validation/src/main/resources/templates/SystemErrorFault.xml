@@ -1,0 +1,9 @@
+<soap:Fault xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<faultcode>soap:Server</faultcode>
+	<faultstring>#[org.apache.commons.lang.StringEscapeUtils.escapeXml(flowVars.errorMessage)]</faultstring>
+	<detail>
+		<err:SystemError xmlns:err="http://services.mig.com/ErrorTypes">
+			<err:Message>#[org.apache.commons.lang.StringEscapeUtils.escapeXml(flowVars.errorMessage)]</err:Message>
+		</err:SystemError>
+	</detail>
+</soap:Fault>

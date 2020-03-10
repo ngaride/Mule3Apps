@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
+    <spring:beans>
+        <spring:bean id="Autodataprefill_schemaValidator" name="Autodataprefill_schemaValidator" class="com.mig.esb.util.schema.SchemaValidator">
+            <spring:property name="httpStatusOnException" value="200"/>
+            <spring:property name="schemaLocations" value="autoprefilldata.xsd"/>
+            <spring:property name="basePath" value="xsd"/>
+        </spring:bean>
+    </spring:beans>
+    <flow name="custom-schema-validation">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/custom-validate" doc:name="HTTP"/>
+        <logger message="Incoming Request : #[payload]" level="INFO" doc:name="Logger"/>
+        <validation:custom-validator ref="Autodataprefill_schemaValidator" doc:name="Validation"/>
+       <!--  <message-filter throwOnUnaccepted="true" doc:name="Message">
+        <mulexml:schema-validation-filter schemaLocations="src/main/resources/autoprefilldata.xsd" returnResult="true" doc:name="XMLSchemaValidation"/>
+        </message-filter> -->
+        <set-payload value="#[payload.toString()]" doc:name="Set Payload" encoding="UTF-8" mimeType="application/xml"/>
+        <logger message="schema validation is succesful" level="INFO" doc:name="Logger"/>
+    </flow>
+</mule>

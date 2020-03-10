@@ -1,0 +1,134 @@
+{
+	"info": {
+		"_postman_id": "008014ce-5298-4749-9bdc-f6bb84a679c8",
+		"name": "schema-vaidation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "addressType wrong",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " <ns0:GetPersonalAutoDataRequest xmlns:ns0=\"http://services.mig.com/schema/AutoPrefillData/v1\">\r\n  <ns0:PolicyHolder>\r\n    <ns0:Name>\r\n      <ns0:FirstName>Gina</ns0:FirstName>\r\n      <ns0:LastName>Parker</ns0:LastName>\r\n    </ns0:Name>\r\n    <ns0:DateOfBirth>1980-03-23</ns0:DateOfBirth>\r\n    <ns0:Addresses>\r\n      <ns0:Address>\r\n        <ns0:Type>Home1</ns0:Type>\r\n        <ns0:AddressLine1>9141 FISCHER RD</ns0:AddressLine1>\r\n        <ns0:City>EVANSVILLE</ns0:City>\r\n        <ns0:State>IN</ns0:State>\r\n        <ns0:ZipCode>47720-7142</ns0:ZipCode>\r\n      </ns0:Address>\r\n    </ns0:Addresses>\r\n  </ns0:PolicyHolder>\r\n  <ns0:DriverLicenseType>Personal</ns0:DriverLicenseType>\r\n</ns0:GetPersonalAutoDataRequest>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/custom-validate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"custom-validate"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "addressType wrong",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": " <ns0:GetPersonalAutoDataRequest xmlns:ns0=\"http://services.mig.com/schema/AutoPrefillData/v1\">\r\n  <ns0:PolicyHolder>\r\n    <ns0:Name>\r\n      <ns0:FirstName>Gina</ns0:FirstName>\r\n      <ns0:LastName>Parker</ns0:LastName>\r\n    </ns0:Name>\r\n    <ns0:DateOfBirth>1980-03-23</ns0:DateOfBirth>\r\n    <ns0:Addresses>\r\n      <ns0:Address>\r\n        <ns0:Type>Home1</ns0:Type>\r\n        <ns0:AddressLine1>9141 FISCHER RD</ns0:AddressLine1>\r\n        <ns0:City>EVANSVILLE</ns0:City>\r\n        <ns0:State>IN</ns0:State>\r\n        <ns0:ZipCode>47720-7142</ns0:ZipCode>\r\n      </ns0:Address>\r\n    </ns0:Addresses>\r\n  </ns0:PolicyHolder>\r\n  <ns0:DriverLicenseType>Personal</ns0:DriverLicenseType>\r\n</ns0:GetPersonalAutoDataRequest>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/custom-validate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"custom-validate"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Length",
+							"value": "181"
+						},
+						{
+							"key": "MULE_ENCODING",
+							"value": "windows-1252"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 10 Mar 2020 21:00:12 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "Error at line 10, column 35 - cvc-enumeration-valid: Value 'Home1' is not facet-valid with respect to enumeration '[Home, Billing, Other]'. It must be a value from the enumeration.."
+				}
+			]
+		},
+		{
+			"name": "addressType Correct",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/xml"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " <ns0:GetPersonalAutoDataRequest xmlns:ns0=\"http://services.mig.com/schema/AutoPrefillData/v1\">\r\n  <ns0:PolicyHolder>\r\n    <ns0:Name>\r\n      <ns0:FirstName>Gina</ns0:FirstName>\r\n      <ns0:LastName>Parker</ns0:LastName>\r\n    </ns0:Name>\r\n    <ns0:DateOfBirth>1980-03-23</ns0:DateOfBirth>\r\n    <ns0:Addresses>\r\n      <ns0:Address>\r\n        <ns0:Type>Home</ns0:Type>\r\n        <ns0:AddressLine1>9141 FISCHER RD</ns0:AddressLine1>\r\n        <ns0:City>EVANSVILLE</ns0:City>\r\n        <ns0:State>IN</ns0:State>\r\n        <ns0:ZipCode>47720-7142</ns0:ZipCode>\r\n      </ns0:Address>\r\n    </ns0:Addresses>\r\n  </ns0:PolicyHolder>\r\n  <ns0:DriverLicenseType>Personal</ns0:DriverLicenseType>\r\n</ns0:GetPersonalAutoDataRequest>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/custom-validate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"custom-validate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,38 @@
+{
+	"SoapFault": [
+		{
+			"inboundErrorMessage": "inboundErrorMessage1",
+			"outboundErrorMessage": "outboundErrorMessage2."
+		}
+	],
+	"NullPointerException": "Configured error message NullPointerException.",
+	"IllegalArgumentException": "Configured error message for IllegalArgumentException.",
+	"ResponseValidatorException": {
+		"400": [
+			{
+				"inboundErrorMessage": "inboundErrorMessage1",
+				"outboundStatusCode": "400",
+				"outboundErrorMessage": "outboundErrorMessage2."
+			},
+			{
+				"defaultOutboundStatusCode": "400",
+				"defaultOutboundErrorMessage": "Bad request."
+			}
+		],
+		"500": [
+			{
+				"inboundErrorMessage": "inboundErrorMessage2",
+				"outboundStatusCode": "503",
+				"outboundErrorMessage": "System Unavailable."
+			},
+			{
+				"defaultOutboundStatusCode": "400",
+				"defaultOutboundErrorMessage": "System Unavailable."
+			}
+		],
+		"default": {
+			"defaultOutboundStatusCode": "500",
+			"defaultOutboundErrorMessage": "System Unavailable."
+		}
+	}
+}
